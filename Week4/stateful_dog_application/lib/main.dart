@@ -38,7 +38,9 @@ class RandomDogImage extends StatefulWidget {
 
 class _RandomDogImageState extends State<RandomDogImage> {
   // Create state variables
-  String dogImageUrl = 'https://images.dog.ceo/breeds/terrier-welsh/lucy.jpg';
+  String _dogImageUrl = '';
+  int _likes = 0;
+  int _dislikes = 0;
 
   // Create a helper function getRandomDogURL
   Future<String> getRandomDogURL() async {
@@ -54,7 +56,7 @@ class _RandomDogImageState extends State<RandomDogImage> {
 
     getRandomDogURL().then((url) {
       setState(() {
-        dogImageUrl = url;
+        _dogImageUrl = url;
       });
     });
   }
@@ -63,24 +65,39 @@ class _RandomDogImageState extends State<RandomDogImage> {
   Widget build(BuildContext context) {
     // Display the dog image
     // Display a button that refreshes the dog image
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.network(
-          dogImageUrl,
-          height: 250,
-        ),
-        TextButton(
-          onPressed: () {
-            getRandomDogURL().then((url) {
-              setState(() {
-                dogImageUrl = url;
-              });
-            });
-          },
-          child: Text('Refresh Dog Image'),
-        )
-      ],
-    );
+    return _dogImageUrl.isEmpty
+        ? CircularProgressIndicator()
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.network(
+                _dogImageUrl,
+                height: 250,
+              ),
+              TextButton(
+                onPressed: () {
+                  getRandomDogURL().then((url) {
+                    setState(() {
+                      _dogImageUrl = url;
+                      _likes++;
+                    });
+                  });
+                },
+                child: Text('Like'),
+              ),
+              TextButton(
+                onPressed: () {
+                  getRandomDogURL().then((url) {
+                    setState(() {
+                      _dogImageUrl = url;
+                      _dislikes++;
+                    });
+                  });
+                },
+                child: Text('Dislike'),
+              ),
+              Text('Likes: $_likes, Dislikes: $_dislikes'),
+            ],
+          );
   }
 }
