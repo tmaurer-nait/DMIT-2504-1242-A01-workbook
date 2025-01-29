@@ -4,6 +4,7 @@ void main() {
   runApp(const MainApp());
 }
 
+// Stage 2: put it in a form
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -13,33 +14,46 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: Padding(
           padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                'New User Form',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+          child: Form(
+            child: Column(
+              children: [
+                Text(
+                  'New User Form',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: Text('Username'),
+                TextFormField(
+                  // Option 2 for validator
+                  // validator: (value){
+                  //   if(value == null || value.trim().isEmpty){
+                  //     return 'Username cannot be empty';
+                  //   } else {
+                  //     return null;
+                  //   }
+                  // }
+                  validator: (value) => value == null || value.trim().isEmpty
+                      ? 'Username cannot be empty'
+                      : null,
+                  decoration: InputDecoration(
+                    label: Text('Username'),
+                  ),
                 ),
-              ),
-              TextField(
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  label: Text('Password'),
+                TextFormField(
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    label: Text('Password'),
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text('Sign Up'),
-              )
-            ],
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Sign Up'),
+                )
+              ],
+            ),
           ),
         ),
       ),
