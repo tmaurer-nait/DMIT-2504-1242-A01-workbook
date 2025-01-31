@@ -37,6 +37,11 @@ class _UserSignupFormState extends State<UserSignupForm> {
   // not a GlobalKey<_UserSignupFormState>.
 
   final _formKey = GlobalKey<FormState>();
+
+  // Step 4: Add controllers to get the input value out of the form fields
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -59,6 +64,7 @@ class _UserSignupFormState extends State<UserSignupForm> {
             //     return null;
             //   }
             // }
+            controller: _usernameController,
             validator: (value) => value == null || value.trim().isEmpty
                 ? 'Username cannot be empty'
                 : null,
@@ -67,6 +73,7 @@ class _UserSignupFormState extends State<UserSignupForm> {
             ),
           ),
           TextFormField(
+            controller: _passwordController,
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
@@ -78,9 +85,14 @@ class _UserSignupFormState extends State<UserSignupForm> {
             onPressed: () {
               // Validate the fields
               if (_formKey.currentState!.validate()) {
+                // Normally here you would submit the values to the registration API
                 // If valid show snackbar
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text('processing...')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        'Username: ${_usernameController.text}, Password: ${_passwordController.text}')));
+
+                // Reset the form to have no text in it
+                _formKey.currentState!.reset();
               }
             },
             child: Text('Sign Up'),
