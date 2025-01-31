@@ -55,31 +55,12 @@ class _UserSignupFormState extends State<UserSignupForm> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          TextFormField(
-            // Option 2 for validator
-            // validator: (value){
-            //   if(value == null || value.trim().isEmpty){
-            //     return 'Username cannot be empty';
-            //   } else {
-            //     return null;
-            //   }
-            // }
-            controller: _usernameController,
-            validator: (value) => value == null || value.trim().isEmpty
-                ? 'Username cannot be empty'
-                : null,
-            decoration: InputDecoration(
-              label: Text('Username'),
-            ),
-          ),
-          TextFormField(
+          UsernameInput(controller: _usernameController),
+          PasswordFormField(
             controller: _passwordController,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(
-              label: Text('Password'),
-            ),
+            validator: (value) => value == null || value.trim().isEmpty
+                ? 'Password Cannot be Empty'
+                : null,
           ),
           ElevatedButton(
             onPressed: () {
@@ -101,4 +82,62 @@ class _UserSignupFormState extends State<UserSignupForm> {
       ),
     );
   }
+}
+
+// Stage 5: Custom Username and Password inputs
+// Custom input extending stateful widget
+class UsernameInput extends StatefulWidget {
+  final TextEditingController controller;
+  final String label;
+
+  const UsernameInput({
+    Key? key,
+    required this.controller,
+    // Default value allows for internationalization
+    this.label = 'Username',
+  }) : super(key: key);
+
+  @override
+  State<UsernameInput> createState() => _UsernameInputState();
+}
+
+class _UsernameInputState extends State<UsernameInput> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller,
+      validator: (value) => value == null || value.trim().isEmpty
+          ? 'Username cannot be empty'
+          : null,
+      decoration: InputDecoration(label: Text(widget.label)),
+    );
+  }
+}
+
+// Custom input extending FormField
+class PasswordFormField extends FormField<String> {
+  final TextEditingController controller;
+  final String label;
+
+  PasswordFormField({
+    super.key,
+    required this.controller,
+    this.label = 'Password',
+    super.validator,
+  }) : super(builder: (FormFieldState<String> state) {
+          return TextFormField(
+            validator: validator,
+            controller: controller,
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: InputDecoration(
+              label: Text(label),
+            ),
+            // required to enforce correct validation of this field
+            onChanged: (value) {
+              state.didChange(value);
+            },
+          );
+        });
 }
