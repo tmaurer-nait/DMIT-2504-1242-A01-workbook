@@ -125,6 +125,8 @@ class PasswordFormField extends FormField<String> {
     this.label = 'Password',
     super.validator,
   }) : super(builder: (FormFieldState<String> state) {
+          var customState = state as _PasswordFormFieldState;
+          customState._controller = controller;
           return TextFormField(
             validator: validator,
             controller: controller,
@@ -136,8 +138,47 @@ class PasswordFormField extends FormField<String> {
             ),
             // required to enforce correct validation of this field
             onChanged: (value) {
-              state.didChange(value);
+              customState.didChange(value);
             },
           );
         });
+
+  @override
+  FormFieldState<String> createState() => _PasswordFormFieldState();
+}
+
+// Stage 6: Creating a custom state for a custom form field
+
+class _PasswordFormFieldState extends FormFieldState<String> {
+  TextEditingController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_controller != null) {
+      _controller?.addListener(_controllerChanged);
+    }
+  }
+
+  void _controllerChanged() {
+    if (_controller != null) {
+      didChange(_controller?.text);
+    }
+  }
+
+  @override
+  void reset() {
+    super.reset();
+    if (_controller != null) {
+      _controller?.text = '';
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_controller != null) {
+      _controller?.removeListener(_controllerChanged);
+    }
+    super.dispose();
+  }
 }
