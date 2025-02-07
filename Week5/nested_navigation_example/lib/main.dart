@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nested_navigation_example/pages/home_page.dart';
-import 'package:nested_navigation_example/pages/settings_page.dart';
+import 'package:nested_navigation_example/pages/settings/settings_manager.dart';
 
 void main() {
   runApp(const MainApp());
@@ -22,7 +22,9 @@ class MainApp extends StatelessWidget {
             break;
 
           case '/settings/settings_home':
-            page = SettingsPage();
+            page = SettingsManager(
+              initialRoute: settings.name!.substring(10),
+            );
             break;
 
           default:

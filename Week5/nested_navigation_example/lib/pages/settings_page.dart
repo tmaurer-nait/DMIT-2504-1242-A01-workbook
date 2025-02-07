@@ -11,17 +11,17 @@ class SettingsPage extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  //TODO: Navigate
+                  Navigator.of(context).pushNamed('option1');
                 },
                 child: Text('Go to Option 1 Page')),
             ElevatedButton(
                 onPressed: () {
-                  //TODO: Navigate
+                  Navigator.of(context).pushNamed('option2');
                 },
                 child: Text('Go to Option 2 Page')),
             ElevatedButton(
                 onPressed: () {
-                  //TODO: Navigate
+                  Navigator.of(context).pushNamed('option3');
                 },
                 child: Text('Go to Option 3 Page')),
           ],
