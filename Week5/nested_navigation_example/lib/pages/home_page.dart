@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Navigate to the settings page
+          Navigator.of(context).pushNamed('/settings/settings_home');
         },
         child: Icon(Icons.settings),
       ),

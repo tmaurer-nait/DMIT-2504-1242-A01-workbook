@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nested_navigation_example/pages/home_page.dart';
+import 'package:nested_navigation_example/pages/settings_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +11,27 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      // Builder function, takes in RouteSettings and must return Route Widget
+      onGenerateRoute: (settings) {
+        Widget page;
+
+        switch (settings.name) {
+          case '/':
+            page = HomePage();
+            break;
+
+          case '/settings/settings_home':
+            page = SettingsPage();
+            break;
+
+          default:
+            throw Exception('Unknown Route Used: ${settings.name}');
+        }
+
+        return MaterialPageRoute(
+            builder: (context) => page, settings: settings);
+      },
     );
   }
 }
