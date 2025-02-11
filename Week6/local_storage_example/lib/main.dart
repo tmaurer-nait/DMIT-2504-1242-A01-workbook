@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:local_storage_example/widgets/random_dog_image.dart';
 
 // TODO: Implement a light and dark mode toggle using shared preferences
 // TODO: Reimplement the Dinder app
@@ -63,6 +64,7 @@ class _MainAppState extends State<MainApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildDarkModeSwitch(),
+              RandomDogImage(),
               Text(_darkMode ? 'WOOF' : 'woof')
             ],
           ),
