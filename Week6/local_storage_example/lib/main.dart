@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_storage_example/widgets/random_dog_image.dart';
 
-// TODO: Implement a light and dark mode toggle using shared preferences
-// TODO: Reimplement the Dinder app
-// TODO: Save the last loaded dog to file storage
+// Implement a light and dark mode toggle using shared preferences
+// Reimplement the Dinder app
+// Save the last loaded dog to file storage
 // TODO: Save likes and dislikes to shared preferences
 
 void main() {
