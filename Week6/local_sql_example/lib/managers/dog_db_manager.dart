@@ -47,8 +47,44 @@ class DogDbManager {
     db.close();
   }
 
-  // TODO: Create dog function
-  // TODO: get dogs function
+  // get dogs function
+  Future<List<Dog>> getDogs() async {
+    final db = await database;
+
+    final dogMaps = await db.query('dogs');
+
+    // Option 1: For loop
+    // List<Dog> output = [];
+    // for (final dogMap in dogMaps) {
+    //   output.add(Dog.fromMap(dogMap));
+    // }
+    // return output;
+
+    // Option 2: List.generate
+    // return List.generate(
+    //   dogMaps.length,
+    //   (i) => Dog.fromMap(dogMaps[i]),
+    // );
+
+    // Option 3: List comprehension
+    return [for (final dogMap in dogMaps) Dog.fromMap(dogMap)];
+  }
+
+  // Create dog function
+  Future<void> insertDog(Dog dog) async {
+    final db = await database;
+    await db.insert(
+      'dogs',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // delete dog function
+  Future<void> deleteDog(int id) async {
+    final db = await database;
+    await db.delete('dogs', where: 'id = ?', whereArgs: [id]);
+  }
+
   // TODO: update dog function
-  // TODO: delete dog function
 }
