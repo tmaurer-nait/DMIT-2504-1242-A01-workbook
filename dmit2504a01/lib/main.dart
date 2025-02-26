@@ -23,10 +23,44 @@ class MainApp extends StatelessWidget {
         return HomePage(authAppState: authAppState);
       },
       '/sign-in': (context) {
-        return SignInScreen();
+        return SignInScreen(
+          actions: [
+            AuthStateChangeAction((context, state) {
+              // Auth state has changed, find out what happened and deal with it
+              final user = switch (state) {
+                SignedIn state => state.user,
+                UserCreated state => state.credential.user,
+                _ => null
+              };
+
+              if (user == null) {
+                return;
+              }
+
+              if (state is UserCreated) {
+                // new user, update display name
+                user.updateDisplayName(user.email!.split('@').first);
+              }
+
+              // Remove the dialog
+              Navigator.pop(context);
+              // Push replacement
+              Navigator.pushReplacementNamed(context, '/');
+            })
+          ],
+        );
       },
       '/profile': (context) {
-        return ProfileScreen();
+        return ProfileScreen(
+          actions: [
+            SignedOutAction((context) {
+              // Remove the dialog
+              Navigator.pop(context);
+              // Push replacement
+              Navigator.pushReplacementNamed(context, '/');
+            })
+          ],
+        );
       }
     };
 
