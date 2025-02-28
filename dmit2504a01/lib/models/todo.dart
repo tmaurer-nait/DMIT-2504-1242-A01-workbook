@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Todo {
   Todo({
     required this.description,
@@ -9,7 +11,22 @@ class Todo {
   bool completed;
   String? id;
 
-  // TODO: factory constructor
+  // factory constructor
+  factory Todo.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data();
+    return Todo(
+      description: data?['description'],
+      completed: data?['completed'],
+      // use the doc id for the todo id
+      id: snapshot.id,
+    );
+  }
 
-  // TODO: toMap function
+  // toMap function
+  Map<String, dynamic> toMap() {
+    return {
+      'description': description,
+      'completed': completed,
+    };
+  }
 }

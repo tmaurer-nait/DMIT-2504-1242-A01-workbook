@@ -16,7 +16,6 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _todoList = widget.appState.todos!;
@@ -38,7 +37,6 @@ class _TodoPageState extends State<TodoPage> {
       itemCount: todos.length,
       itemBuilder: (context, index) {
         final todo = todos[index];
-        // TODO: Add a way to delete Todos
         return Dismissible(
           key: UniqueKey(),
           child: ListTile(
@@ -55,7 +53,7 @@ class _TodoPageState extends State<TodoPage> {
                 onChanged: (value) {
                   setState(() {
                     todo.completed = value!;
-                    // TODO: Tell the app state to update firestore
+                    widget.appState.updateTodo(todo: todo);
                   });
                 }),
             shape: Border(bottom: BorderSide(color: Colors.grey)),
@@ -64,7 +62,7 @@ class _TodoPageState extends State<TodoPage> {
             setState(() {
               // Update the local state
               todos.removeAt(index);
-              // TODO: Tell the app state to update firestore
+              widget.appState.deleteTodo(todo: todo);
             });
           },
         );
