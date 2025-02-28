@@ -45,7 +45,11 @@ class ApplicationState extends ChangeNotifier {
       if (user != null) {
         _loggedIn = true;
         this.user = user;
-        _todos = [];
+        _todos = [
+          Todo(description: 'buy milk', completed: false),
+          Todo(description: 'assignment 3', completed: false),
+          Todo(description: 'clean floors', completed: false),
+        ];
         // TODO: Fetch the todos from firestore
       } else {
         _loggedIn = false;

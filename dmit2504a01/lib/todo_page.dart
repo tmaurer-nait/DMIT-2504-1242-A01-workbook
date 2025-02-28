@@ -25,6 +25,33 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todo List'),
+      ),
+      body: _buildList(_todoList),
+    );
+  }
+
+  Widget _buildList(List<Todo> todos) {
+    return ListView.builder(
+      itemCount: todos.length,
+      itemBuilder: (context, index) {
+        final todo = todos[index];
+        // TODO: Add a way to delete Todos
+        return ListTile(
+          // TODO: Style the text and list Tile
+          title: Text(todo.description),
+          trailing: Checkbox(
+              value: todo.completed,
+              onChanged: (value) {
+                setState(() {
+                  todo.completed = value!;
+                  // TODO: Tell the app state to update firestore
+                });
+              }),
+        );
+      },
+    );
   }
 }

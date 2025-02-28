@@ -1,4 +1,5 @@
 import 'package:dmit2504a01/home_page.dart';
+import 'package:dmit2504a01/todo_page.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dmit2504a01/app_state.dart';
@@ -66,6 +67,24 @@ class MainApp extends StatelessWidget {
 
     return MaterialApp(
       routes: routes,
+      onGenerateRoute: (settings) {
+        if (settings.name == '/todos') {
+          // Perform an auth check here
+          if (authAppState.loggedIn) {
+            // If user is authenticated, they can see the protected route
+            return MaterialPageRoute(builder: (context) {
+              return TodoPage(appState: authAppState);
+            });
+          } else {
+            // not logged in, reroute to home page
+            return MaterialPageRoute(builder: (context) {
+              return HomePage(authAppState: authAppState);
+            });
+          }
+        }
+        // If route is not protected use default behaviour
+        return null;
+      },
     );
   }
 }
