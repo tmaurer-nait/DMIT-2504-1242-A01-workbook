@@ -39,17 +39,34 @@ class _TodoPageState extends State<TodoPage> {
       itemBuilder: (context, index) {
         final todo = todos[index];
         // TODO: Add a way to delete Todos
-        return ListTile(
-          // TODO: Style the text and list Tile
-          title: Text(todo.description),
-          trailing: Checkbox(
-              value: todo.completed,
-              onChanged: (value) {
-                setState(() {
-                  todo.completed = value!;
-                  // TODO: Tell the app state to update firestore
-                });
-              }),
+        return Dismissible(
+          key: UniqueKey(),
+          child: ListTile(
+            title: Text(
+              todo.description,
+              style: TextStyle(
+                decoration: todo.completed
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            ),
+            trailing: Checkbox(
+                value: todo.completed,
+                onChanged: (value) {
+                  setState(() {
+                    todo.completed = value!;
+                    // TODO: Tell the app state to update firestore
+                  });
+                }),
+            shape: Border(bottom: BorderSide(color: Colors.grey)),
+          ),
+          onDismissed: (direction) {
+            setState(() {
+              // Update the local state
+              todos.removeAt(index);
+              // TODO: Tell the app state to update firestore
+            });
+          },
         );
       },
     );
