@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:state_example/models/user.dart';
+import 'package:state_example/widgets/user_notifier.dart';
 
 class LastNamePage extends StatelessWidget {
-  const LastNamePage({required this.user, super.key});
-
-  final User user;
+  const LastNamePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = UserNotifier.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Last Name Page'),
