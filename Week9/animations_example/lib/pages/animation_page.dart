@@ -76,7 +76,7 @@ class _AnimationPageState extends State<AnimationPage>
                 height: 110,
               ),
               RotationTransition(
-                turns: _animation,
+                turns: _controller,
                 child: Text('Rotation Transition'),
               )
             ],
