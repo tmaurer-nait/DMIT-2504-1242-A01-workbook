@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'package:animations_example/widgets/rainbow_button.dart';
 
 class AnimationPage extends StatefulWidget {
   const AnimationPage({super.key});
@@ -78,7 +79,11 @@ class _AnimationPageState extends State<AnimationPage>
               RotationTransition(
                 turns: _controller,
                 child: Text('Rotation Transition'),
-              )
+              ),
+              SizedBox(
+                height: 110,
+              ),
+              RainbowButton(child: Text('Rainbow Button')),
             ],
           ),
         ));
